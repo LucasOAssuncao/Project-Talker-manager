@@ -32,10 +32,8 @@ const newPerson = async (content) => {
     const contentFile = await fs.readFile(join(__dirname, path), 'utf-8');
     const arr = JSON.parse(contentFile);
     await arr.push(content);
-    // console.log(arr);
     await fs.writeFile(join(__dirname, path), JSON.stringify(arr));
   } catch (error) {
-    console.log('oi');
     return null;
   }
 };

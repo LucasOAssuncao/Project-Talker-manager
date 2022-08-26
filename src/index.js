@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 const express = require('express');
 const bodyParser = require('body-parser');
 const talker = require('./talker');
@@ -69,10 +70,12 @@ app.post(
   validateTalk,
   validateWatchedAt,
   validateRate,
-  (req, res) => {
-    talker.newPerson({ id: 5,
+  async (req, res) => {
+    const path = './talker.json';
+    const contentFile = JSON.parse(await fs.readFile(path));
+    talker.newPerson({ id: Number(contentFile.length),
       ...req.body });
-    res.status(201).json({ id: 5,
+    res.status(201).json({ id: Number(contentFile.length),
       ...req.body });
   },
 );
