@@ -16,6 +16,17 @@ const getAllList = async () => {
     return list;
   };
 
+const getById = async (id) => {
+    const list = await readFile();
+    const personFind = list.filter((e) => e.id === Number(id));
+    try {
+    return personFind;
+    } catch (error) {
+        return null;
+    }
+};
+
 module.exports = {
     getAllList,
+    getById,
 };
