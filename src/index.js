@@ -2,6 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const talker = require('./talker');
 const generateToken = require('./utils/generateToken');
+const validateToken = require('./middlewares/validateToken');
+const { validateWatchedAt,
+  validateAge,
+  validateName,
+  validateRate,
+  validateTalk } = require('./middlewares/validateTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -54,3 +60,19 @@ app.post('/login', (req, res) => {
 
   return res.status(200).json({ token });
 });
+
+app.post(
+  '/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  (req, res) => {
+    talker.newPerson({ id: 5,
+      ...req.body });
+    res.status(201).json({ id: 5,
+      ...req.body });
+  },
+);
