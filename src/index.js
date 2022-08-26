@@ -36,9 +36,19 @@ app.get('/talker/:id', async (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-
-  if ([email, password].includes(undefined)) {
-    return res.status(401).json({ message: 'Campos ausentes!' });
+  const correctEmail = /\S+@\w+.\w+/i;
+  const numberOfCharacters = 6;
+  if ([email].includes(undefined)) {
+    return res.status(400).json({ message: 'O campo "email" é obrigatório' });
+  }
+  if ([password].includes(undefined)) {
+    return res.status(400).json({ message: 'O campo "password" é obrigatório' });
+  }
+  if (!correctEmail.test(email)) {
+    return res.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
+  }
+  if (password.length < numberOfCharacters) {
+    return res.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
   const token = generateToken();
 
