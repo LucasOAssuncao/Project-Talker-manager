@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const talker = require('./talker');
+const generateToken = require('./utils/generateToken');
 
 const app = express();
 app.use(bodyParser.json());
@@ -31,4 +32,15 @@ app.get('/talker/:id', async (req, res) => {
     });
   }
  return res.status(200).json(person[0]);
+});
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if ([email, password].includes(undefined)) {
+    return res.status(401).json({ message: 'Campos ausentes!' });
+  }
+  const token = generateToken();
+
+  return res.status(200).json({ token });
 });
