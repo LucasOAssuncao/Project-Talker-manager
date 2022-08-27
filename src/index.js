@@ -96,3 +96,13 @@ app.put(
     }
   },
 );
+
+app.delete(
+  '/talker/:id',
+  validateToken,
+  async (req, res) => {
+    const { id } = req.params;
+    await talker.deletePerson(Number(id));
+    return res.status(204).json();
+  },
+);

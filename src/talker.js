@@ -57,9 +57,26 @@ const updatePerson = async (id, update) => {
   }
 };
 
+const deletePerson = async (id) => {
+  try {
+    const path = './talker.json';
+    const arrFile = await readFile();
+    const personToDelete = arrFile.find((e) => e.id === id);
+    if (personToDelete) {
+    const updated = arrFile.filter((e) => (e.id !== id));
+      console.log(updated);
+      await fs.writeFile(join(__dirname, path), JSON.stringify(updated));
+    }
+    return false;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   getAllList,
   getById,
   newPerson,
   updatePerson,
+  deletePerson,
 };
