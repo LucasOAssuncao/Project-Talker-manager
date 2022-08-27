@@ -79,3 +79,20 @@ app.post(
       ...req.body });
   },
 );
+
+app.put(
+  '/talker/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  async (req, res) => {
+    const { id } = req.params;
+    const updatedPerson = await talker.updatePerson(Number(id), req.body);
+    if (updatedPerson) {
+      return res.status(200).json(updatedPerson);
+    }
+  },
+);

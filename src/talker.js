@@ -38,8 +38,28 @@ const newPerson = async (content) => {
   }
 };
 
+const updatePerson = async (id, update) => {
+  try {
+    const path = './talker.json';
+    const arrFile = await readFile();
+    const personToUpdate = arrFile.find((e) => e.id === id);
+    if (personToUpdate) {
+    const updated = arrFile.map((e) => {
+          if (e.id === id) return { ...e, ...update };
+          return e;
+        });
+      await fs.writeFile(join(__dirname, path), JSON.stringify(updated));
+      return { id, ...update };
+    }
+    return false;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   getAllList,
   getById,
   newPerson,
+  updatePerson,
 };
