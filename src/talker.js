@@ -73,10 +73,24 @@ const deletePerson = async (id) => {
   }
 };
 
+const findPersonByName = async (query) => {
+  try {
+    const arrFile = await readFile();
+    const finded = arrFile.filter((e) => e.name.toLowerCase().includes(query.toLowerCase()));
+    if (!query) {
+      return arrFile;
+    }
+    return finded || [];
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   getAllList,
   getById,
   newPerson,
   updatePerson,
   deletePerson,
+  findPersonByName,
 };

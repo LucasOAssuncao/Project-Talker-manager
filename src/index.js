@@ -30,6 +30,17 @@ app.get('/talker', async (req, res) => {
   res.status(200).json(list);
 });
 
+app.get(
+  '/talker/search',
+  validateToken,
+  async (req, res) => {
+    const { q } = req.query;
+    const finded = await talker.findPersonByName(q);
+    console.log(finded);
+    return res.status(200).json(finded);
+  },
+);
+
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const person = await talker.getById(id);
@@ -103,6 +114,6 @@ app.delete(
   async (req, res) => {
     const { id } = req.params;
     await talker.deletePerson(Number(id));
-    return res.status(204).json();
+    return res.status(204).json(null);
   },
 );
